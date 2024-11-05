@@ -1,0 +1,13 @@
+#!bin/bash/env bash
+
+if [[ -x ./package_creation.sh ]];
+then
+    echo "Running package installer script"
+    ./package_creation.sh
+else
+    echo "package_creation.sh not found or not executable"
+    exit 1
+fi
+
+
+# Check for symlink script 
