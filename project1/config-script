@@ -18,15 +18,15 @@ do
     h)  # Displays the usage information
       usage
       ;;
+    s)  # Executes the symlink script
+      symlink=1
+      ;;
     x)  # Executes both package installer and symlink
-      execute_package_installer=1
-      execute_symlink=1
+      package-installer=1
+      symlink=1
       ;;
     p)  # Executes the package installer script
-      execute_package_installer=1
-      ;;
-    s)  # Executes the symlink script
-      execute_symlink=1
+      package-installer=1
       ;;
     \?)  # Handles invalid options
       echo "Invalid option: -$OPTARG"
@@ -34,6 +34,7 @@ do
       ;;
   esac
 done
+
 
 
 
@@ -62,10 +63,3 @@ fi
 
 
 
-if [ ! -d ~/bin ];
-then 
-    mkdir -p ~bin
-    ln -s $clone_dir/bin/sayhi ~/bin/sayhi
-    ln -s $clone_dir/bin/install-fonts ~/bin/install-fonts
-    echo "~bin directory already exists, updating symlink"
-    ln =s $clone_dir/bin/sayhi
