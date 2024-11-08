@@ -8,7 +8,7 @@ usage() {
     echo "  -h, --help           Show this help message and exit"
     echo "  -s, --symlink        Run the symbolic link setup script only"
     echo "  -x, --execute        Run the main installation script for all packages"
-    echo "  -p, --packages       Run the package installation script only"
+    echo "  -p, --packages       Run the setup script only"
     echo ""
     exit 1
 }
@@ -23,12 +23,12 @@ while getopts ":hsxp" opt; do
     s)  # Executes the symlink script
       symlink=1
       ;;
-    x)  # Executes both package installer and symlink
-      package_installer=1
+    x)  # Executes both setup and symlink
+      setup=1
       symlink=1
       ;;
-    p)  # Executes the package installer script
-      package_installer=1
+    p)  # Executes the setup script
+      setup=1
       ;;
     \?)  # Handles invalid options
       echo "Invalid option: -$OPTARG"
@@ -38,7 +38,7 @@ while getopts ":hsxp" opt; do
 done
 
 # This are the default values that control the script when executed
-package_installer=0
+setup=0
 symlink=0
 
 
@@ -56,17 +56,17 @@ run_script() {
 
 # Show usage and exit if no options were provided
 if [[ $OPTIND -eq 1 ]]; then  # OPTIND defaults to 1, tracking the next argument to be processed
-  echo "NOTE: Make sure to use sudo when executing with -x or -p"
+  echo "Make sure to use sudo when executing with -x or -p"
   usage
 fi
 
-# Handle option for running both package installer and symlink setup
-if [[ "$package_installer" -eq 1 && "$symlink" -eq 1 ]]; then
-  echo "Running both package installer and symlink creation scripts"
-  run_script "package_installer"
+# Handle option for running both setup and symlink setup
+if [[ "$setup" -eq 1 && "$symlink" -eq 1 ]]; then
+  echo "Running both setup and symlink creation scripts"
+  run_script "setup"
   run_script "config_symlink"
 else
   # Handle individual options
-  [[ "$package_installer" -eq 1 ]] && run_script "packag"
-  [[ "$symlink" -eq 1 ]] && run_script "config_symlink.sh"
+  [[ "$setup" -eq 1 ]] && run_script "setup"
+  [[ "$symlink" -eq 1 ]] && run_script "config_symlink"
 fi
