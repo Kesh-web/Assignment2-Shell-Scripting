@@ -1,37 +1,55 @@
 #!/usr/bin/env bash
 
-clone_dir=~/home/arch/Assignment2-Shell-Scripting/2420-as2-starting-files-main
+# Log file for debugging
+LOG_FILE="$HOME/setup_log.txt"
 
-if [ ! -d ~/bin ];
-then
-        mkdir -p ~/bin
-        ln -s $clone_dir/bin/sayhi ~/bin/sayhi
-        ln -s $clone_dir/bin/install-foonts ~/bin/install-fonts
-        echo "~/bin directory created + symlinks connected"
+# Function to check and create directories
+create_directory() {
+  local dir_path=$1
+  if [ ! -d "$dir_path" ]; then
+    mkdir -p "$dir_path" && echo "Directory $dir_path created" >> "$LOG_FILE" || echo "Failed to create directory $dir_path" >> "$LOG_FILE"
+  else
+    echo "Directory $dir_path already exists" >> "$LOG_FILE"
+  fi
+}
+
+# Function to create symbolic links
+create_symlink() {
+  local target=$1
+  local link_name=$2
+  if [ -L "$link_name" ]; then
+    echo "Symlink $link_name already exists" >> "$LOG_FILE"
+  else
+    ln -s "$target" "$link_name" && echo "Symlink $link_name created" >> "$LOG_FILE" || echo "Failed to create symlink $link_name" >> "$LOG_FILE"
+  fi
+}
+
+# Determine the user's home directory
+if [ "$SUDO_USER" ]; then
+  USER_HOME="/home/$SUDO_USER"
+elif [ "$EUID" -eq 0 ]; then
+  USER_HOME="/root"
 else
-        echo "~/bin directory already exists, updating symlink"
-        ln -s $clone_dir/bin/sayhi ~/bin/sayhi
-        ln -s $clone_dir/bin/install-fonts
+  USER_HOME="$HOME"
 fi
+echo "User home directory: $USER_HOME" >> "$LOG_FILE"
 
-if [ ! -d ~/.config/kak/kakrc ];
-then
-        mkdir -p ~/.config/kak
-        ln -s $clone_dir/config/kak/kakrc ~/.config/kak/kakrc
-        echo "~/.config/kak/kakrc directory created and symlink connected"
-else
-        echo "~/.config/kak/kakrc already exists, updating symlink"
-        ln -s $clone_dir/config/kak/kakrc ~/.confi      g/kak/kakrc
-fi
+# Specify the clone directory path
+clone_dir="$USER_HOME/acit2420_shell_script/file_system_script/2420-as2-starting-files"
 
-if [ ! -d ~/.config/tmux/tmux.conf ];
-then
-        mkdir -p ~/.config/tmux
-        ln -s $clone_dir/config/tmux/tmux.conf ~/.config/tmux/tmux.conf
-        echo "~/.config/tmux/tmux.conf directory created and symlink connected"
-else
-        echo "~/.config/tmux/tmux.conf already exists, updating symlink"
-        ln -s $clone_dir/config/tmux/tmux.conf ~/.config/tmux/tmux.conf
-fi
+# Symlink configuration for binaries
+create_directory "$USER_HOME/bin"
+create_symlink "$clone_dir/bin/sayhi" "$USER_HOME/bin/sayhi"
+create_symlink "$clone_dir/bin/install-fonts" "$USER_HOME/bin/install-fonts"
 
-ln -s $clone_dir/home/bashrc ~/.bashrc
+# Symlink configuration for Kakoune
+create_directory "$USER_HOME/.config/kak"
+create_symlink "$clone_dir/config/kak/kakrc" "$USER_HOME/.config/kak/kakrc"
+
+# Symlink configuration for Tmux
+create_directory "$USER_HOME/.config/tmux"
+create_symlink "$clone_dir/config/tmux/tmux.conf" "$USER_HOME/.config/tmux/tmux.conf"
+
+# Symlink configuration for Bashrc
+create_symlink "$clone_dir/home/bashrc" "$USER_HOME/.bashrc"
+
