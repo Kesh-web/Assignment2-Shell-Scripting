@@ -1,19 +1,21 @@
-#!bin/bash/env bash
+#!/bin/bash
+#Filename: config-script
 
 usage() {
-    echo "Usage: $0 [-h] [-s] [-x] [-p]"
+    echo "Usage: $0 [OPTIONS]"
     echo ""
-    echo "    -h, --help          Show this help message"
-    echo "    -s, --symlink       Run the symbolic link setup script only"
-    echo "    -x  --execute       Run the main installation script for all packages"
-    echo "    -p, --packages      Run the package installation script only"
-
-  exit 1
+    echo "Options:"
+    echo "  -h, --help           Show this help message and exit"
+    echo "  -s, --symlink        Run the symbolic link setup script only"
+    echo "  -x, --execute        Run the main installation script for all packages"
+    echo "  -p, --packages       Run the package installation script only"
+    echo ""
+    exit 1
 }
 
 
-while getopts ":hsxp" opt;
-do
+
+while getopts ":hsxp" opt; do
   case $opt in
     h)  # Displays the usage information
       usage
@@ -22,11 +24,11 @@ do
       symlink=1
       ;;
     x)  # Executes both package installer and symlink
-      package-installer=1
+      package_installer=1
       symlink=1
       ;;
     p)  # Executes the package installer script
-      package-installer=1
+      package_installer=1
       ;;
     \?)  # Handles invalid options
       echo "Invalid option: -$OPTARG"
@@ -35,31 +37,36 @@ do
   esac
 done
 
+# This are the default values that control the script when executed
+package_installer=0
+symlink=0
 
 
-
-# Checks and executes the the symlink script
-if [[ -x ./config_symlink ]];
-then 
-    echo "Running symlink creation script"
-    ,/config_symlink
-else
-    echo "config_symlink not found or no executable"
+# Function to check if a script exists and is executable, then runs it
+run_script() {
+  local script_name="$1"
+  if [[ -x ./$script_name ]]; then
+    echo "Running $script_name..."
+    ./$script_name
+  else
+    echo "Error: $script_name not found or not executable"
     exit 1
+  fi
+}
+
+# Show usage and exit if no options were provided
+if [[ $OPTIND -eq 1 ]]; then  # OPTIND defaults to 1, tracking the next argument to be processed
+  echo "NOTE: Make sure to use sudo when executing with -x or -p"
+  usage
 fi
 
-
-# Checks for the package creation script and runs it
-if [[ -x ./package_creation ]]; 
-then
-echo "Running package installer script"
-    ./package_creation
+# Handle option for running both package installer and symlink setup
+if [[ "$package_installer" -eq 1 && "$symlink" -eq 1 ]]; then
+  echo "Running both package installer and symlink creation scripts"
+  run_script "package_installer"
+  run_script "config_symlink"
 else
-    echo "package_creation not found or not executable"
-    exit 1
+  # Handle individual options
+  [[ "$package_installer" -eq 1 ]] && run_script "packag"
+  [[ "$symlink" -eq 1 ]] && run_script "config_symlink.sh"
 fi
-
-
-
-
-
