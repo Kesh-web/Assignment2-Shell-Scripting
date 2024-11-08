@@ -30,7 +30,7 @@ while getopts ":hsxp" opt; do
     p)  # Executes the setup script
       setup=1
       ;;
-    \?)  # Handles invalid options
+    ?)  # Handles invalid options
       echo "Invalid option: -$OPTARG"
       usage
       ;;
@@ -68,5 +68,4 @@ if [[ "$setup" -eq 1 && "$symlink" -eq 1 ]]; then
 else
   # Handle individual options
   [[ "$setup" -eq 1 ]] && run_script "setup"
-  [[ "$symlink" -eq 1 ]] && run_script "config_symlink"
 fi
