@@ -1,0 +1,71 @@
+#!bin/bash/env bash
+
+usage() {
+    echo "Usage: $0 [-h] [-s] [-x] [-p]"
+    echo ""
+    echo "    -h, --help          Show this help message"
+    echo "    -s, --symlink       Run the symbolic link setup script only"
+    echo "    -x  --execute       Run the main installation script for all packages"
+    echo "    -p, --packages      Run the package installation script only"
+
+  exit 1
+}
+
+
+while getopts ":hsxp" opt;
+do
+  case $opt in
+    h)  # Displays the usage information
+      usage
+      ;;
+    x)  # Executes both package installer and symlink
+      execute_package_installer=1
+      execute_symlink=1
+      ;;
+    p)  # Executes the package installer script
+      execute_package_installer=1
+      ;;
+    s)  # Executes the symlink script
+      execute_symlink=1
+      ;;
+    \?)  # Handles invalid options
+      echo "Invalid option: -$OPTARG"
+      usage
+      ;;
+  esac
+done
+
+
+
+# Checks and executes the the symlink script
+if [[ -x ./config_symlink ]];
+then 
+    echo "Running symlink creation script"
+    ,/config_symlink
+else
+    echo "config_symlink not found or no executable"
+    exit 1
+fi
+
+
+# Checks for the package creation script and runs it
+if [[ -x ./package_creation ]]; 
+then
+echo "Running package installer script"
+    ./package_creation
+else
+    echo "package_creation not found or not executable"
+    exit 1
+fi
+
+
+
+
+
+if [ ! -d ~/bin ];
+then 
+    mkdir -p ~bin
+    ln -s $clone_dir/bin/sayhi ~/bin/sayhi
+    ln -s $clone_dir/bin/install-fonts ~/bin/install-fonts
+    echo "~bin directory already exists, updating symlink"
+    ln =s $clone_dir/bin/sayhi
