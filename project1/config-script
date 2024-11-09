@@ -1,8 +1,9 @@
 #!/bin/bash
 #Filename: config-script
 
+# Usage function provides the user a help message that lists various options that the script accepts. It serves as a guide for the user incase they need understanding what parts of the script does what.
 usage() {
-    echo "Usage: $0 [OPTIONS]"
+    echo "Usage: $0 [OPTIONS] " # [OPTIONS] represents the options the user can pass when running the script
     echo ""
     echo "Options:"
     echo "  -h, --help           Show this help message and exit"
@@ -10,11 +11,11 @@ usage() {
     echo "  -x, --execute        Run the main installation script for all packages"
     echo "  -p, --packages       Run the setup script only"
     echo ""
-    exit 1
+    exit 1 # Exits the script with the code 1 
 }
 
 
-
+# getopts sets up variables with actions that can be run by the user. 
 while getopts ":hsxp" opt; do
   case $opt in
     h)  # Displays the usage information
@@ -42,10 +43,10 @@ setup=0
 symlink=0
 
 
-# Function to check if a script exists and is executable, then runs it
+# Function to check if a script exists and is executable, then runs it. 
 run_script() {
-  local script_name="$1"
-  if [[ -x ./$script_name ]]; then
+  local script_name="$1" # stores into a local variable.
+  if [[ -x ./$script_name ]]; then # checks if the file exists in the directory and that it has exectuable permissions
     echo "Running $script_name..."
     ./$script_name
   else
@@ -61,7 +62,7 @@ if [[ $OPTIND -eq 1 ]]; then  # OPTIND defaults to 1, tracking the next argument
 fi
 
 # Handle option for running both setup and symlink setup
-if [[ "$setup" -eq 1 && "$symlink" -eq 1 ]]; then
+if [[ "$setup" -eq 1 && "$symlink" -eq 1 ]]; then # checks if both the variables "setup" and "symlink" are set to 1 which indicates it to run.
   echo "Running both setup and symlink creation scripts"
   run_script "setup"
   run_script "config_symlink"
