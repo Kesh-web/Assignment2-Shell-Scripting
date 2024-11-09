@@ -14,6 +14,10 @@ usage() {
     exit 1 # Exits the script with the code 1 
 }
 
+# This are the default values that control the script when executed
+setup=0
+symlink=0
+
 
 # getopts sets up variables with actions that can be run by the user. 
 while getopts ":hsxp" opt; do
@@ -38,9 +42,7 @@ while getopts ":hsxp" opt; do
   esac
 done
 
-# This are the default values that control the script when executed
-setup=0
-symlink=0
+
 
 
 # Function to check if a script exists and is executable, then runs it. 
@@ -69,4 +71,5 @@ if [[ "$setup" -eq 1 && "$symlink" -eq 1 ]]; then # checks if both the variables
 else
   # Handle individual options
   [[ "$setup" -eq 1 ]] && run_script "setup"
+  [[ "$symlink" -eq 1 ]] && run_script "config_symlink"
 fi

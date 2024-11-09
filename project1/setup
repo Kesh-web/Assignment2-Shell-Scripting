@@ -1,6 +1,7 @@
 #!user/bin/bash/env bash
 
-#
+#Filename: setup
+
 
 # This shows the path to the txt file that contains the list of packages that will be installed. (kakoune and tmux)
 packages=./install-packages.txt
@@ -11,7 +12,7 @@ if [[ ! -f $packages]]; then
     exit 1
 fi
 
-
+#Referece: https://wiki.archlinux.org/title/Pacman
 for package in $(cat $packages); # Loops through the packages listed in the txt file.
 do
     if pacman -Qs "package" > /dev/null; # pacman -Qs checks if the package is already installed. If it is installed then it will return 0 which indicates success and throws the output into /dev/null which is like a garbage bin.
