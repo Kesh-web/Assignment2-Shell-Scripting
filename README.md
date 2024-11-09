@@ -242,7 +242,7 @@ The **user_creation** script is a Bash utility designed to streamline the proces
 
 <br>
 
-## Documentation Links
+## References
 
 ### Bash & Shell Scripting
 - [Bash Manual](https://www.gnu.org/software/bash/manual/bash.html) - Official GNU Bash documentation.
