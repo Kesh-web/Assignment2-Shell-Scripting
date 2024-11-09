@@ -143,3 +143,21 @@ else
     USER_HOME="$HOME"
 fi
 ```
+
+# References
+## Bash & Shell Scripting
+- [Bash Manual](https://www.gnu.org/software/bash/manual/bash.html) - Official GNU Bash documentation
+- [Advanced Bash Guide](https://tldp.org/LDP/abs/html/) - Comprehensive Bash scripting guide
+
+## Package Management
+- [Arch Linux Pacman](https://wiki.archlinux.org/title/pacman) - Official pacman package manager docs
+
+## System Tools
+- [GNU Coreutils](https://www.gnu.org/software/coreutils/manual/) - Basic file operations (mkdir, ln)
+- [tmux Wiki](https://github.com/tmux/tmux/wiki) - tmux configuration and usage
+- [Kakoune Editor](https://github.com/mawww/kakoune/blob/master/README.asciidoc) - Kakoune setup guide
+
+## Shell Configuration  
+- [Bash Startup Files](https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html) - .bashrc setup
+- [Linux Filesystem](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/) - Directory structure guide
+
