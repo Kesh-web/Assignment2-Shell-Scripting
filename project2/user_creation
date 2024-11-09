@@ -10,7 +10,16 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 
-
 usage() {
-
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  -h, --help           Show this help message and exit"
+    echo "  -u, --user           Specify the username for the new user"
+    echo "  -s, --shell          Specify the shell for the new user"
+    echo "  -d, --home-dir       Specify the home directory for the new user"
+    echo "  -g, --groups         Specify additional groups (comma-separated) for the new user"
+    echo ""
+    exit 1 # Exits the script with code 1
 }
+
