@@ -1,57 +1,54 @@
 #!/usr/bin/env bash
 # Filename: config_symlink
 
-# Log file for debugging
-LOG_FILE="$HOME/setup_log.txt"
-
 # Function to check and create directories
-create_directory() { 
+create-directory() { 
   local dir_path=$1 # stores the path into a local variable
   if [ ! -d "$dir_path" ]; then # checks to see if the variable exists and is a directory
-    mkdir -p "$dir_path" && echo "Directory $dir_path created" >> "$LOG_FILE" || echo "Failed to create directory $dir_path" >> "$LOG_FILE" # creates the directory and outputs if it succeeded or failed
+    mkdir -p "$dir_path" && echo "Directory $dir_path created" || echo "Failed to create directory $dir_path" # creates the directory and outputs if it succeeded or failed
   else
-    echo "Directory $dir_path already exists" >> "$LOG_FILE" # if it exists then outputs the message
+    echo "Directory $dir_path already exists" # if it exists then outputs the message
   fi
 }
 
 # Function to create symlinks
-create_symlink() {
+create-symlink() {
   local target=$1 # stores "target" into a local variable
   local link_name=$2 # stores "link_name" into a local variable
   if [ -L "$link_name" ]; then # checks if it is a symbolic link
-    echo "Symlink $link_name already exists" >> "$LOG_FILE" # if it is a symbolic link then outputs the message
+    echo "Symlink $link_name already exists" # if it is a symbolic link then outputs the message
   else
-    ln -s "$target" "$link_name" && echo "Symlink $link_name created" >> "$LOG_FILE" || echo "Failed to create symlink $link_name" >> "$LOG_FILE" # creates the symbolic link and outputs if it succeeded or failed
+    ln -s "$target" "$link_name" && echo "Symlink $link_name created" || echo "Failed to create symlink $link_name" # creates the symbolic link and outputs if it succeeded or failed
   fi
 }
 
 # Determine the user's home directory
 if [ "$SUDO_USER" ]; then
-  USER_HOME="/home/$SUDO_USER"
-elif [ "$EUID" -eq 0 ]; then
-  USER_HOME="/root"
+  USER_HOME="/home/$SUDO_USER" # checks if the user is using sudo
+elif [ "$EUID" -eq 0 ]; then # checks if the user is root
+  USER_HOME="/root" 
 else
   USER_HOME="$HOME"
 fi
-echo "User home directory: $USER_HOME" >> "$LOG_FILE"
+echo "User home directory: $USER_HOME"
 
 # Specifys the new clone directory path 
-conf_path="$USER_HOME/acit2420_shell_script/file_system_script/2420-as2-starting-files"
+conf_path="$USER_HOME/acit2420_shell_script/file_system_script/2420-as2-starting-files" #
 
 # Symlink configuration for bin files
-create_directory "$USER_HOME/bin"
-create_symlink "$conf_path/bin/sayhi" "$USER_HOME/bin/sayhi"
-create_symlink "$conf_path/bin/install-fonts" "$USER_HOME/bin/install-fonts"
+create-directory "$USER_HOME/bin"
+create-symlink "$conf_path/bin/sayhi" "$USER_HOME/bin/sayhi"
+create-symlink "$conf_path/bin/install-fonts" "$USER_HOME/bin/install-fonts"
 
 # Symlink configuration for kak files
-create_directory "$USER_HOME/.config/kak"
-create_symlink "$conf_path/config/kak/kakrc" "$USER_HOME/.config/kak/kakrc"
+create-directory "$USER_HOME/.config/kak"
+create-symlink "$conf_path/config/kak/kakrc" "$USER_HOME/.config/kak/kakrc"
 
 # Symlink configuration for tmux conf
-create_directory "$USER_HOME/.config/tmux"
-create_symlink "$conf_path/config/tmux/tmux.conf" "$USER_HOME/.config/tmux/tmux.conf"
+create-directory "$USER_HOME/.config/tmux"
+create-symlink "$conf_path/config/tmux/tmux.conf" "$USER_HOME/.config/tmux/tmux.conf"
 
 # Symlink configuration for bashrc
-create_symlink "$conf_path/home/bashrc" "$USER_HOME/.bashrc"
+create-symlink "$conf_path/home/bashrc" "$USER_HOME/.bashrc"
 
-echo "Setup has been complete" >> "$LOG_FILE"
+echo "Setup is complete!"
