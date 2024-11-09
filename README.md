@@ -128,6 +128,7 @@ create-symlink() {
 }
 ```
 
+
 ### Home Directory Detection
 The script determines the user's home directory based on the following conditions:
 
@@ -143,21 +144,70 @@ else
     USER_HOME="$HOME"
 fi
 ```
+# 🛠️ User Creation Script
 
-# References
-## Bash & Shell Scripting
-- [Bash Manual](https://www.gnu.org/software/bash/manual/bash.html) - Official GNU Bash documentation
-- [Advanced Bash Guide](https://tldp.org/LDP/abs/html/) - Comprehensive Bash scripting guide
+## Overview
+The **user_creation** script is a Bash utility designed to streamline the process of creating a new user on a Linux system. With this script, administrators can specify options like user ID (UID), shell, home directory, and additional groups for a new user. Since this script modifies system files such as `/etc/passwd` and `/etc/group`, it requires root or superuser privileges to run.
 
-## Package Management
-- [Arch Linux Pacman](https://wiki.archlinux.org/title/pacman) - Official pacman package manager docs
 
-## System Tools
-- [GNU Coreutils](https://www.gnu.org/software/coreutils/manual/) - Basic file operations (mkdir, ln)
-- [tmux Wiki](https://github.com/tmux/tmux/wiki) - tmux configuration and usage
-- [Kakoune Editor](https://github.com/mawww/kakoune/blob/master/README.asciidoc) - Kakoune setup guide
 
-## Shell Configuration  
-- [Bash Startup Files](https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html) - .bashrc setup
-- [Linux Filesystem](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/) - Directory structure guide
+## Features
+- **Customizable Options**:
+  - **User ID (UID)**: Specify a custom UID for the new user.
+  - **Shell**: Define a specific shell for the user (defaults to `/bin/bash`).
+  - **Home Directory**: Set a custom home directory path.
+  - **Groups**: Assign the user to additional groups (groups will be created if they do not already exist).
+- **Automated Home Directory Creation**: Creates the user’s home directory with proper permissions.
+- **Password Setting**: Prompts to set a password for the new user.
 
+
+## Script Flow
+
+1. **Check for User Privileges**: 
+   - Ensures the script can be run without root access but requires the necessary user privileges to modify system files (`/etc/passwd`, `/etc/group`).
+
+2. **Parse Arguments**: 
+   - Processes command-line options such as UID, shell, home directory, and groups.
+
+3. **Create User**:
+   - Adds the new user to `/etc/passwd`.
+   - Creates the specified home directory with correct permissions.
+   - Adds the user to specified groups, creating any missing groups as necessary.
+
+4. **Set Password**: 
+   - Prompts to set a password for the new user.
+
+---
+
+> **Note**: Always review and confirm user creation details, as creating users and modifying groups can have significant effects on system access and security.
+
+
+
+## Documentation Links
+
+### Bash & Shell Scripting
+- [Bash Manual](https://www.gnu.org/software/bash/manual/bash.html) - Official GNU Bash documentation.
+- [Advanced Bash Guide](https://tldp.org/LDP/abs/html/) - Comprehensive guide to Bash scripting.
+- [Working with Options](https://learning.oreilly.com/videos/bash-shell-scripting/9780137689064/9780137689064-BSS2_04_10_01/) - Video example script for reference.
+
+### Package Management
+- [Arch Linux Pacman](https://wiki.archlinux.org/title/pacman) - Official documentation for the pacman package manager.
+
+### System Tools
+- [GNU Coreutils](https://www.gnu.org/software/coreutils/manual/) - Documentation for basic file operations (e.g., `mkdir`, `ln`).
+- [tmux Wiki](https://github.com/tmux/tmux/wiki) - tmux configuration and usage guide.
+- [Kakoune Editor](https://github.com/mawww/kakoune/blob/master/README.asciidoc) - Setup guide for the Kakoune editor.
+
+### Shell Configuration  
+- [Bash Startup Files](https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html) - Documentation for `.bashrc` setup.
+- [Linux Filesystem Hierarchy](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/) - Guide to Linux directory structure.
+
+### UID and GID
+- [Difference Between UID and EUID](https://medium.com/@althubianymalek/uid-and-gid-in-executing-a-binary-120e2f67d317) - Explanation of UID and EUID.
+
+### Commands
+- [Primary Expressions with `if` Statements](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html) - Working with `if` statements in Bash.
+
+### Additional References
+- [Linux `passwd` Command](https://man7.org/linux/man-pages/man1/passwd.1.html) - Man page for the `passwd` command, used for changing user passwords in Linux systems.
+- [Linux `groupadd` Command](https://man7.org/linux/man-pages/man8/groupadd.8.html) - Man page for the `groupadd` command, used for creating new groups in Linux systems.

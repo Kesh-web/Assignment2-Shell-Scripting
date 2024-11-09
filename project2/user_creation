@@ -1,36 +1,36 @@
-#!user/bin/bash/env bash
+#!/bin/bash
 
-#Filename: user_creation
-
+# Filename: user_creation
 
 # Check if the script is running with root privileges
 if [[ $EUID -ne 0 ]]; then
-  echo "Error occured, please run the script as root!"  #  Displays the error message if the script isnt run as root
+  echo "Error occurred, please run the script as root!"  # Displays the error message if the script isn't run as root
   exit 1  # Exit the script with exit code 1
 fi
 
-
+# Usage function provides the user a help message that lists various options that the script accepts.
+# It serves as a guide for the user in case they need help understanding what the script does.
 usage() {
-    echo "Usage: $0 [OPTIONS]"
-    echo ""
-    echo "Options:"
-    echo "  -h, --help           Show this help message and exit"
-    echo "  -u, --uid            Shows the userid for the new user"
-    echo "  -s, --shell          Shows the shell for the new user"
-    echo "  -d, --home-dir       Shows the home directory for the new user"
-    echo "  -g, --groups         Shows additional groups for the new user"
-    echo ""
-    exit 1 # Exits the script with code 1
+  echo "Usage: $0 [OPTIONS]"
+  echo ""
+  echo "Options:"
+  echo "  -h, --help           Show this help message and exit"
+  echo "  -u, --uid            Set the user ID for the new user"
+  echo "  -s, --shell          Set the shell for the new user"
+  echo "  -d, --home-dir       Set the home directory for the new user"
+  echo "  -g, --groups         Set additional groups for the new user"
+  echo ""
+  exit 1  # Exits the script with code 1
 }
 
-
+# Parse command-line options using getopts
 while getopts ":husdg" opt; do
   case $opt in
     h)
       usage
       ;;
     u)
-      userid=$OPTARG
+      uid=$OPTARG
       ;;
     s)
       shell=$OPTARG
@@ -42,10 +42,64 @@ while getopts ":husdg" opt; do
       groups=$OPTARG
       ;;
     ?)
-      echo "Invalid option: -$OPTARG"
+      echo "Invalid: -$OPTARG"
       usage
       ;;
   esac
 done
 
+# Shift to get the username as a positional argument
+shift $((OPTIND - 1))
+username="$1"
 
+# Ensure username is provided
+if [ -z "$username" ]; then
+  echo "Username is required"
+  usage
+fi
+
+# Set default UID if not provided
+if [ -z "$uid" ]; then
+  uid=1000
+fi
+
+# Set default GID if not provided
+if [ -z "$gid" ]; then
+  gid="$uid"
+fi
+
+# Set default home directory if not provided
+if [ -z "$home_dir" ]; then
+  home_dir="/home/$username"
+fi
+
+# Set default shell if not provided
+if [ -z "$shell" ]; then
+  shell="/bin/bash"
+fi
+
+# Add user to /etc/passwd
+echo "$username:x:$uid:$gid::$home_dir:$shell" >> /etc/passwd
+
+# Create the home directory and set permissions
+mkdir -p "$home_dir"
+cp -r /etc/skel/. "$home_dir"
+chown -R "$username:$username" "$home_dir"
+chmod 700 "$home_dir"
+
+# Add user to additional groups if specified
+if [ -n "$groups" ]; then
+  for group in $groups; do
+    # Check if the group exists, if not create it
+    if ! grep -q "^$group:" /etc/group; then
+      groupadd "$group"
+    fi
+    # Add the user to the group
+    usermod -aG "$group" "$username"
+  done
+fi
+
+# Set the password for the new user
+passwd "$username"
+
+echo "User '$username' created."
