@@ -6,12 +6,6 @@
 # This shows the path to the txt file that contains the list of packages that will be installed. (kakoune and tmux)
 packages=./install-packages.txt
 
-# Checks if the package file exists. If it doesnt exist then print the error message and exit the script with the exit code 1 to indicate the error.
-if [[ ! -f $packages]]; then 
-    echo "Packages list $packages not found" 
-    exit 1
-fi
-
 #Referece: https://wiki.archlinux.org/title/Pacman
 for package in $(cat $packages); # Loops through the packages listed in the txt file.
 do

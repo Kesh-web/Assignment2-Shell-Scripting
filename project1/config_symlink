@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Filename: config_symlink
 
 # Log file for debugging
 LOG_FILE="$HOME/setup_log.txt"
@@ -12,7 +13,7 @@ create_directory() {
     echo "Directory $dir_path already exists" >> "$LOG_FILE" # if it exists then outputs the message
   fi
 }
-# Function to create symliinks
+# Function to create symlinks
 create_symlink() {
   local target=$1 # stores "target" into a local variable
   local link_name=$2 # stores "link_name" into a local variable
