@@ -45,6 +45,7 @@ The script uses the following `pacman` command:
 
 
 
+
 # Config-Script
 
 This script (`config-script`) provides a convenient way to run specific setup tasks based on the options selected. It includes options to run the symbolic link setup script, the main package installation script, or both.
@@ -53,11 +54,11 @@ This script (`config-script`) provides a convenient way to run specific setup ta
 
 To run the script, use the following command in the terminal:
 
-
+```bash
 ./config-script [OPTIONS]
+```
 
-
-Options
+## Options
 
     -h, --help: Display help information for using the script.
     -s, --symlink: Run the symbolic link setup script (config_symlink.sh) only.
@@ -65,23 +66,80 @@ Options
     -p, --packages: Run the main installation script (setup) only.
 
 
-Example Commands
+## Example Commands
 
-    Display Help
+### Display Help
 
-    To view the help message with available options:
+To view the help message with available options:
 
-./config-script -h
-
+```./config-script -h ```
 Run the Symbolic Link Setup Script Only
 
-To run only the symbolic link setup script (config_symlink.sh):
+To run only the symbolic link setup script (config_symlink):
 
-./config-script -s
+``` ./config-script -s ```
 
 Run the Main Installation Script Only
 
 To run only the main installation script (setup):
 
-./config-script -p
+```./config-script -p ```
 
+# Config Symlink Script Documentation
+
+## Overview
+This script automates the creation of directories and symbolic links for system configuration files.
+
+## Script Details
+**Filename:** `config_symlink`
+## Usage 
+To run the script, use the following command in the terminal:
+
+```./config_symlink ```
+
+## Functions
+
+### create-directory()
+Creates directories if they don't exist.
+
+```bash
+create-directory() {
+   local dir_path=$1
+   if [ ! -d "$dir_path" ]; then
+       mkdir -p "$dir_path" && echo "Directory $dir_path created" || echo "Failed to create directory $dir_path"
+   else
+       echo "Directory $dir_path already exists"
+   fi
+}
+```
+
+### create-symlink()
+Creates symbolic links if they don't exist.
+
+```bash
+create-symlink() {
+    local target=$1
+    local link_name=$2
+    if [ -L "$link_name" ]; then
+        echo "Symlink $link_name already exists"
+    else
+        ln -s "$target" "$link_name" && echo "Symlink $link_name created" || echo "Failed to create symlink $link_name"
+    fi
+}
+```
+
+### Home Directory Detection
+The script determines the user's home directory based on the following conditions:
+
+- Checks if running with sudo
+- Checks if running as root
+- Falls back to current user's home directory
+
+```bash if [ "$SUDO_USER" ]; then
+    USER_HOME="/home/$SUDO_USER"
+elif [ "$EUID" -eq 0 ]; then
+    USER_HOME="/root"
+else
+    USER_HOME="$HOME"
+fi
+```
