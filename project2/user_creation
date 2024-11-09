@@ -1,3 +1,16 @@
 #!user/bin/bash/env bash
 
+#Filename: user_creation
 
+
+# Check if the script is running with root privileges
+if [[ $EUID -ne 0 ]]; then
+  echo "Error occured, please run the script as root!"  #  Displays the error message if the script isnt run as root
+  exit 1  # Exit the script with exit code 1
+fi
+
+
+
+usage() {
+
+}
