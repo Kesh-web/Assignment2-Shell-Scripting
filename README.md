@@ -247,7 +247,7 @@ The **user_creation** script is a Bash utility designed to streamline the proces
 ### Bash & Shell Scripting
 - [Bash Manual](https://www.gnu.org/software/bash/manual/bash.html) - Official GNU Bash documentation.
 - [Advanced Bash Guide](https://tldp.org/LDP/abs/html/) - Comprehensive guide to Bash scripting.
-- [Working with Options](https://learning.oreilly.com/videos/bash-shell-scripting/9780137689064/9780137689064-BSS2_04_10_01/) - Video example script for reference.
+- [Working with Options](https://learning.oreilly.com/videos/bash-shell-scripting/9780137689064/9780137689064-BSS2_04_10_01/) - Oreilly - Working with Options.
 
 ### Package Management
 - [Arch Linux Pacman](https://wiki.archlinux.org/title/pacman) - Official documentation for the pacman package manager.
