@@ -1,5 +1,38 @@
 # Assignment-2-Shell-Scripting
 
+## Table of Contents
+
+1. [Introduction](#introduction)  
+2. [Projects](#projects)  
+   - [Configuration Scripts](#project-1-configuration-scripts)  
+   - [New User Script](#project-2-new-user-script)  
+3. [Package Installer Script](#package-installer-script)  
+   - [Requirements](#requirements)  
+   - [Usage Instructions](#usage-instructions)  
+   - [Notes](#notes)  
+4. [Config-Script](#config-script)  
+   - [Usage](#usage)  
+   - [Options](#options)  
+   - [Example Commands](#example-commands)  
+5. [Config Symlink Script](#config-symlink-script-documentation)  
+   - [Overview](#overview)  
+   - [Functions](#functions)  
+     - [create-directory()](#create-directory)  
+     - [create-symlink()](#create-symlink)  
+   - [Home Directory Detection](#home-directory-detection)  
+6. [User Creation Script](#user-creation-script)  
+   - [Overview](#overview-1)  
+   - [Features](#features)  
+   - [Script Flow](#script-flow)  
+7. [Documentation Links](#documentation-links)  
+   - [Bash & Shell Scripting](#bash--shell-scripting)  
+   - [Package Management](#package-management)  
+   - [System Tools](#system-tools)  
+   - [Shell Configuration](#shell-configuration)  
+   - [UID and GID](#uid-and-gid)  
+   - [Commands](#commands)  
+   - [Additional References](#additional-references)
+
 ## Introduction
 
 This repository contains two Bash scripts developed to automate essential system administration tasks. The scripts streamline the processes of system setup and user management in a Unix-based environment, adhering to Bash scripting best practices.
@@ -13,6 +46,10 @@ The first project involves creating scripts to automate the initial setup of you
 The second project focuses on creating a user management script. This script will automate the process of adding new users, setting passwords, assigning appropriate groups, and configuring user environments.
 
 ---
+<br>
+<br>
+
+<br>
 
 # Package Installer Script
 
@@ -42,6 +79,11 @@ This script (`setup`) installs packages listed in a text file using the Arch Lin
 The script uses the following `pacman` command:
 
 - `pacman -Syu --noconfirm`: This command updates the package database, upgrades the system, and installs each package without asking for confirmation.
+
+
+<br>
+<br>
+<br>
 
 
 
@@ -84,6 +126,11 @@ Run the Main Installation Script Only
 To run only the main installation script (setup):
 
 ```./config-script -p ```
+<br>
+
+<br>
+
+<br>
 
 # Config Symlink Script Documentation
 
@@ -144,6 +191,13 @@ else
     USER_HOME="$HOME"
 fi
 ```
+<br>
+
+<br>
+
+<br>
+
+
 #  User Creation Script
 
 ## Overview
@@ -182,6 +236,11 @@ The **user_creation** script is a Bash utility designed to streamline the proces
 > **Note**: Always review and confirm user creation details, as creating users and modifying groups can have significant effects on system access and security.
 
 
+<br>
+
+<br>
+
+<br>
 
 ## Documentation Links
 
