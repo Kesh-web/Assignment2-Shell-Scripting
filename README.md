@@ -201,7 +201,7 @@ fi
 #  User Creation Script
 
 ## Overview
-The **user_creation** script is a Bash utility designed to streamline the process of creating a new user on a Linux system. With this script, administrators can specify options like user ID (UID), shell, home directory, and additional groups for a new user. Since this script modifies system files such as `/etc/passwd` and `/etc/group`, it requires root or superuser privileges to run.
+With this script, you can specify options like user ID (UID), shell, home directory, and additional groups for a new user. Since this script modifies system files such as `/etc/passwd` and `/etc/group`, it requires root or superuser privileges to run.
 
 
 
