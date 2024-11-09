@@ -52,3 +52,5 @@ create-symlink "$conf_path/config/tmux/tmux.conf" "$USER_HOME/.config/tmux/tmux.
 create-symlink "$conf_path/home/bashrc" "$USER_HOME/.bashrc"
 
 echo "Setup is complete!"
+
+
